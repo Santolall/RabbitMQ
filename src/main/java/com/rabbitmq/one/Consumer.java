@@ -3,33 +3,33 @@ package com.rabbitmq.one;
 import com.rabbitmq.client.*;
 
 public class Consumer {
-    //锟斤拷锟斤拷锟斤拷息
+    //队列消息
     public static final String QUEUE_NAME = "hello";
 
     public static void main(String[] args) throws Exception {
-        //锟斤拷锟斤拷锟斤拷锟接斤拷锟斤拷锟斤拷息
+        //创建链接接受消息
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("192.168.150.100");
         factory.setUsername("admin");
         factory.setPassword("123456");
         Connection connection = factory.newConnection();
 
-        //锟斤拷锟斤拷锟脚碉拷
+        //创建信道
         Channel channel = connection.createChannel();
-        //锟斤拷锟斤拷 锟斤拷锟斤拷锟斤拷息
+        //声明 接受消息
         DeliverCallback deliverCallback = (consumerTag,message) -> {
             System.out.println(new String(message.getBody()));
         };
-        //取锟斤拷锟斤拷息锟侥回碉拷
+        //取消消息的回调
         CancelCallback cancelCallback = consumerTag -> {
-            System.out.println("锟斤拷息锟斤拷锟窖憋拷锟叫讹拷");
+            System.out.println("消息消费被中断");
         };
         /**
-         * 锟斤拷息锟斤拷锟窖讹拷锟斤拷
-         * 1.锟斤拷锟斤拷锟角革拷锟斤拷锟斤拷
-         * 2.锟斤拷锟窖成癸拷锟斤拷锟角凤拷要锟皆讹拷锟斤拷应
-         * 3.锟斤拷锟斤拷锟斤拷未锟缴癸拷锟斤拷锟窖的回碉拷
-         * 4.锟斤拷锟斤拷锟斤拷取录锟斤拷锟窖的回碉拷
+         * 消息消费队列
+         * 1.消费那个队列
+         * 2.消费成功后是否要自动答应
+         * 3.消费者未成功消费的回调
+         * 4.消费者取录消费的回调
          */
         channel.basicConsume(QUEUE_NAME,true,deliverCallback,cancelCallback);
 
