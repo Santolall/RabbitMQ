@@ -19,6 +19,7 @@ public class Workthree {
             //沉睡1S
             SleepUtils.sleep(30);
             System.out.println("接受到的消息：" + new String(var2.getBody(),"UTF-8"));
+
             //手动应答
             /**
              * 1.消息的标识 tag
@@ -26,6 +27,9 @@ public class Workthree {
              */
             channel.basicAck(var2.getEnvelope().getDeliveryTag(),false);
         };
+        //设置不公平分发
+        int prefetchCount = 1;
+        channel.basicQos(prefetchCount);
 
         //采用手动应答
         boolean aotuAck = false;

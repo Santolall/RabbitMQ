@@ -26,6 +26,9 @@ public class Worktwo {
              */
             channel.basicAck(var2.getEnvelope().getDeliveryTag(),false);
         };
+        //设置不公平分发
+        int prefetchCount = 1;
+        channel.basicQos(prefetchCount);
 
         //采用手动应答
         boolean aotuAck = false;
